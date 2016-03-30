@@ -13,7 +13,6 @@
  *
  */
 
-var EXIF = require('./exif');
 var decoderWorkerBlobString = require('./DecoderWorker');
 
 var BarcodeReader = {
