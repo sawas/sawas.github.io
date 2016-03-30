@@ -14,9 +14,9 @@
  */
 
 var EXIF, decoderWorkerBlobString;
-define(['require', './exif', './DecoderWorker'], function (require) {
-    EXIF = require('./exif');
-    decoderWorkerBlobString = require('./DecoderWorker');
+define(['require', 'exif', 'DecoderWorker'], function (require) {
+    EXIF = require('exif');
+    decoderWorkerBlobString = require('DecoderWorker');
 });
 
 var BarcodeReader = {
