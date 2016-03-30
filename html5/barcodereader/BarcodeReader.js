@@ -43,11 +43,7 @@ var BarcodeReader = {
   Stream: null, // The actual video.
   DecodeStreamActive: false, // Will be set to false when StopStreamDecode() is called.
   Decoded: [], // Used to enfore the ForceUnique property.
-  DecoderWorker: 
-    require(['./DecoderWorker'], function (decoderWorkerBlobString) {
-      new Worker( URL.createObjectURL(new Blob([decoderWorkerBlobString], {type: "application/javascript"}) ) ),
-    });
-    
+  DecoderWorker: new Worker( URL.createObjectURL(new Blob([decoderWorkerBlobString], {type: "application/javascript"}) ) ),
   OrientationCallback: null,
   // Always call the Init().
   Init: function() {
