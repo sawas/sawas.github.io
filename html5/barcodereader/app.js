@@ -47,7 +47,8 @@ function(BarcodeReader) {
           option.text = sourceInfo.label || 'microphone ' +
             (audioSelect.length + 1);
           audioSelect.appendChild(option);
-        } else if (sourceInfo.kind === 'video') {
+        } else if (sourceInfo.kind === 'video' &&
+            sourceInfo.label.indexOf("back") > -1) {
           option.text = sourceInfo.label || 'camera ' + (videoSelect.length + 1);
           videoSelect.appendChild(option);
         } else {
@@ -60,6 +61,43 @@ function(BarcodeReader) {
         typeof MediaStreamTrack.getSources === 'undefined') {
       alert('This browser does not support MediaStreamTrack.\n\nTry Chrome.');
     } else {
-      //MediaStreamTrack.getSources(gotSources);
+      MediaStreamTrack.getSources(gotSources);
     }
+    
+    function successCallback(stream) {
+      window.stream = stream; // make stream available to console
+      videoElement.src = window.URL.createObjectURL(stream);
+      videoElement.play();
+    }
+    
+    function errorCallback(error) {
+      console.log('navigator.getUserMedia error: ', error);
+    }
+    
+    function start() {
+      if (window.stream) {
+        videoElement.src = null;
+        window.stream.stop();
+      }
+      var audioSource = audioSelect.value;
+      var videoSource = videoSelect.value;
+      var constraints = {
+        audio: {
+          optional: [{
+            sourceId: audioSource
+          }]
+        },
+        video: {
+          optional: [{
+            sourceId: videoSource
+          }]
+        }
+      };
+      navigator.getUserMedia(constraints, successCallback, errorCallback);
+    }
+    
+    audioSelect.onchange = start;
+    videoSelect.onchange = start;
+    
+    start();
 });
