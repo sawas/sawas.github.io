@@ -99,7 +99,7 @@ requirejs(['BarcodeReader'],
         videoSelect.onchange = start;
         decode.onclick = Decode;
         stopDecode.onclick = StopDecode;
-        debugger;
+        
         start();
     }
 );
