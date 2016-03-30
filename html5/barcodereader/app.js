@@ -97,6 +97,8 @@ requirejs(['BarcodeReader'],
         
         audioSelect.onchange = start;
         videoSelect.onchange = start;
+        decode.onclick = Decode;
+        stopDecode.onclick = StopDecode;
         
         start();
     }
