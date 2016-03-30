@@ -17,7 +17,6 @@ var EXIF, decoderWorkerBlobString;
 define(function (require) {
     EXIF = require('./exif');
     decoderWorkerBlobString = require('./DecoderWorker');
-});
 
 var BarcodeReader = {
   Config: {
@@ -194,7 +193,7 @@ var BarcodeReader = {
 
   // The image decoding function, image is a data source for an image or an image element.
   DecodeImage: function(image) {
-		var img = new Image();
+    var img = new Image();
 
     if (image instanceof Image || image instanceof HTMLImageElement) {
       image.exifdata = false;
@@ -346,3 +345,4 @@ var BarcodeReader = {
 };
 
 module.exports = BarcodeReader;
+});
