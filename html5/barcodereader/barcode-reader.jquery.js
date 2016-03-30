@@ -1,6 +1,4 @@
-requirejs(['BarcodeReader'],
-  function (BarcodeReader) {
-    (function ( $ ) {
+(function ( $ ) {
   $.fn.barcodeReader = function(options) {
     console.log(options);
 
@@ -237,6 +235,3 @@ $.fn.barcodeReader.defaults = {
   'imageTo': '',
   'inputFrom': ''
 };
-
-  });
-);
