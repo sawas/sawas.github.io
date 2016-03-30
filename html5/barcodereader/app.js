@@ -1,10 +1,11 @@
 
 requirejs(['BarcodeReader'],
 function(BarcodeReader) {
-  var result = document.getElementById("Result");
+    var result = document.getElementById("Result");
     BarcodeReader.Init();
     var localized = [];
     var streaming = false;
+    
     BarcodeReader.StreamCallback = function(result) {
       if (result.length > 0) {
         var tempArray = [];
@@ -14,61 +15,12 @@ function(BarcodeReader) {
         Result.innerHTML = tempArray.join("<br />");
       }
     };
+    
     BarcodeReader.SetLocalizationCallback(function(result) {
       localized = result;
     });
+    
     BarcodeReader.SwitchLocalizationFeedback(true);
-    c = document.getElementById("videoCanvas");
-    ctx = c.getContext("2d");
-
-    video = document.createElement("video");
-    video.width = 640;
-    video.height = 480;
-
-    function draw() {
-      try {
-        ctx.drawImage(video, 0, 0, c.width, c.height);
-        if (localized.length > 0) {
-          ctx.beginPath();
-          ctx.lineWIdth = "2";
-          ctx.strokeStyle = "red";
-          for (var i = 0; i < localized.length; i++) {
-            ctx.rect(localized[i].x, localized[i].y, localized[i].width, localized[i].height);
-          }
-          ctx.stroke();
-        }
-        setTimeout(draw, 20);
-      } catch (e) {
-        if (e.name == "NS_ERROR_NOT_AVAILABLE") {
-          setTimeout(draw, 20);
-        } else {
-          throw e;
-        }
-      }
-    }
-
-    navigator.getUserMedia = (navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia ||
-      navigator.msGetUserMedia);
-    if (navigator.getUserMedia) {
-      navigator.getUserMedia({
-          video: true,
-          audio: true
-        },
-        function(localMediaStream) {
-          video.src = window.URL.createObjectURL(localMediaStream);
-          video.play();
-          draw();
-          streaming = true;
-        },
-        function(err) {
-          console.log("The following error occured: " + err);
-        }
-      );
-    } else {
-      console.log("getUserMedia not supported");
-    }
 
     function Decode() {
       if (!streaming) return;
@@ -77,5 +29,37 @@ function(BarcodeReader) {
 
     function StopDecode() {
       BarcodeReader.StopStreamDecode();
+    }
+    
+    var videoElement = document.querySelector('video');
+    var audioSelect = document.querySelector('select#audioSource');
+    var videoSelect = document.querySelector('select#videoSource');
+    
+    navigator.getUserMedia = navigator.getUserMedia ||
+      navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    
+    function gotSources(sourceInfos) {
+      for (var i = 0; i !== sourceInfos.length; ++i) {
+        var sourceInfo = sourceInfos[i];
+        var option = document.createElement('option');
+        option.value = sourceInfo.id;
+        if (sourceInfo.kind === 'audio') {
+          option.text = sourceInfo.label || 'microphone ' +
+            (audioSelect.length + 1);
+          audioSelect.appendChild(option);
+        } else if (sourceInfo.kind === 'video') {
+          option.text = sourceInfo.label || 'camera ' + (videoSelect.length + 1);
+          videoSelect.appendChild(option);
+        } else {
+          console.log('Some other kind of source: ', sourceInfo);
+        }
+      }
+    }
+    
+    if (typeof MediaStreamTrack === 'undefined' ||
+        typeof MediaStreamTrack.getSources === 'undefined') {
+      alert('This browser does not support MediaStreamTrack.\n\nTry Chrome.');
+    } else {
+      //MediaStreamTrack.getSources(gotSources);
     }
 });
