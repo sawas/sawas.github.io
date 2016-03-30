@@ -1,5 +1,6 @@
 requirejs(['BarcodeReader'],
-(function ($, BarcodeReader) {
+  function (BarcodeReader) {
+    (function ( $ ) {
   $.fn.barcodeReader = function(options) {
     console.log(options);
 
@@ -225,7 +226,7 @@ requirejs(['BarcodeReader'],
       navigator.mozGetUserMedia ||
       navigator.msGetUserMedia;
   }
-}(jQuery)));
+}( jQuery ));
 
 $.fn.barcodeReader.defaults = {
   'debug': false,
@@ -236,3 +237,6 @@ $.fn.barcodeReader.defaults = {
   'imageTo': '',
   'inputFrom': ''
 };
+
+  });
+);
