@@ -1,6 +1,6 @@
-var BarcodeReader;
+var barcodeReader;
 requirejs(['BarcodeReader'],
 function(BarcodeReader) {
   debugger;
-  this.BarcodeReader = BarcodeReader;
+  barcodeReader = BarcodeReader;
 });
