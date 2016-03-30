@@ -12,8 +12,13 @@
  * around with the SupportedFormats property.
  *
  */
-require(['./DecoderWorker'], function (decoderWorkerBlobString) {
-      
+define(function (require, exports, module) {
+
+  
+
+
+var EXIF = require('./exif');
+var decoderWorkerBlobString = require('./DecoderWorker');
 
 var BarcodeReader = {
   Config: {
@@ -198,13 +203,11 @@ var BarcodeReader = {
         if (BarcodeReader.Config.SkipOrientation) {
           BarcodeReader.BarcodeReaderDecodeImage(image, 1, "");
         } else {
-          require(['.exif'], function (EXIF) {
-            EXIF.getData(image, function(exifImage) {
-              var orientation = EXIF.getTag(exifImage, "Orientation");
-              var sceneType = EXIF.getTag(exifImage, "SceneCaptureType");
-              if (typeof orientation !== 'number') orientation = 1;
-              BarcodeReader.BarcodeReaderDecodeImage(exifImage, orientation, sceneType);
-            });
+          EXIF.getData(image, function(exifImage) {
+            var orientation = EXIF.getTag(exifImage, "Orientation");
+            var sceneType = EXIF.getTag(exifImage, "SceneCaptureType");
+            if (typeof orientation !== 'number') orientation = 1;
+            BarcodeReader.BarcodeReaderDecodeImage(exifImage, orientation, sceneType);
           });
         }
       } else {
@@ -212,13 +215,11 @@ var BarcodeReader = {
           if (BarcodeReader.Config.SkipOrientation) {
             BarcodeReader.BarcodeReaderDecodeImage(img, 1, "");
           } else {
-            require(['.exif'], function (EXIF) {
-              EXIF.getData(image, function(exifImage) {
-                var orientation = EXIF.getTag(exifImage, "Orientation");
-                var sceneType = EXIF.getTag(exifImage, "SceneCaptureType");
-                if (typeof orientation !== 'number') orientation = 1;
-                BarcodeReader.BarcodeReaderDecodeImage(exifImage, orientation, sceneType);
-              });
+            EXIF.getData(this, function(exifImage) {
+              var orientation = EXIF.getTag(exifImage, "Orientation");
+              var sceneType = EXIF.getTag(exifImage, "SceneCaptureType");
+              if (typeof orientation !== 'number') orientation = 1;
+              BarcodeReader.BarcodeReaderDecodeImage(exifImage, orientation, sceneType);
             });
           }
         };
@@ -229,13 +230,11 @@ var BarcodeReader = {
         if (BarcodeReader.Config.SkipOrientation) {
           BarcodeReader.BarcodeReaderDecodeImage(img, 1, "");
         } else {
-          require(['.exif'], function (EXIF) {
-              EXIF.getData(image, function(exifImage) {
-              var orientation = EXIF.getTag(exifImage, "Orientation");
-              var sceneType = EXIF.getTag(exifImage, "SceneCaptureType");
-              if (typeof orientation !== 'number') orientation = 1;
-              BarcodeReader.BarcodeReaderDecodeImage(exifImage, orientation, sceneType);
-            });
+          EXIF.getData(this, function(exifImage) {
+            var orientation = EXIF.getTag(exifImage, "Orientation");
+            var sceneType = EXIF.getTag(exifImage, "SceneCaptureType");
+            if (typeof orientation !== 'number') orientation = 1;
+            BarcodeReader.BarcodeReaderDecodeImage(exifImage, orientation, sceneType);
           });
         }
       };
@@ -346,5 +345,6 @@ var BarcodeReader = {
     return canvas;
   }
 };
-    });
+
 module.exports = BarcodeReader;
+});
