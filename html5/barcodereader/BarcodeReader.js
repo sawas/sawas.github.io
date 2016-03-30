@@ -14,7 +14,7 @@
  */
 
 var EXIF, decoderWorkerBlobString;
-define(['./exif', './DecoderWorker'], function (require) {
+define(['require', './exif', './DecoderWorker'], function (require) {
     EXIF = require('./exif');
     decoderWorkerBlobString = require('./DecoderWorker');
 });
