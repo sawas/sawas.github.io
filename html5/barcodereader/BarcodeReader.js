@@ -12,6 +12,8 @@
  * around with the SupportedFormats property.
  *
  */
+require(['./DecoderWorker'], function (decoderWorkerBlobString) {
+      
 
 var BarcodeReader = {
   Config: {
@@ -344,5 +346,5 @@ var BarcodeReader = {
     return canvas;
   }
 };
-
+    });
 module.exports = BarcodeReader;
