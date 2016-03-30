@@ -1,1 +1,2 @@
 
+requirejs(['BarcodeReader']);
