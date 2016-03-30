@@ -25,8 +25,8 @@ requirejs(['BarcodeReader'],
         var videoElement = document.querySelector('video');
         var audioSelect = document.querySelector('select#audioSource');
         var videoSelect = document.querySelector('select#videoSource');
-        var decodeBtn = document.querySelector('decode');
-        var stopDecodeBtn = document.querySelector('stopDecode');
+        var decodeBtn = document.querySelector('button#decode');
+        var stopDecodeBtn = document.querySelector('button#stopDecode');
         
         navigator.getUserMedia = navigator.getUserMedia ||
           navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
