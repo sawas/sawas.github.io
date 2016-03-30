@@ -13,11 +13,10 @@
  *
  */
 
-var EXIF, decoderWorkerBlobString;
-define(['require', 'exif', 'DecoderWorker'], function (require) {
-    EXIF = require('exif');
-    decoderWorkerBlobString = require('DecoderWorker');
-});
+define(function (require) {
+  var EXIF = require('./exif');
+  var decoderWorkerBlobString = require('./DecoderWorker');
+
 
 var BarcodeReader = {
   Config: {
@@ -344,5 +343,6 @@ var BarcodeReader = {
     return canvas;
   }
 };
+});
 
 module.exports = BarcodeReader;
