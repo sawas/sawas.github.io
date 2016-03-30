@@ -60,6 +60,7 @@ requirejs(['BarcodeReader'],
           window.stream = stream; // make stream available to console
           videoElement.src = window.URL.createObjectURL(stream);
           videoElement.play();
+          streaming = true;
         }
         
         function errorCallback(error) {
@@ -89,7 +90,7 @@ requirejs(['BarcodeReader'],
         }
         
         function Decode() {
-          if (!window.stream) return;
+          if (!streaming) return;
           BarcodeReader.DecodeStream(videoElement);
         }
     
