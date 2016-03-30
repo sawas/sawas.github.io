@@ -13,8 +13,6 @@
  *
  */
 
-var decoderWorkerBlobString = require('./DecoderWorker');
-
 var BarcodeReader = {
   Config: {
     // Set to false if the decoder should look for one barcode and then stop. Increases performance.
@@ -45,7 +43,11 @@ var BarcodeReader = {
   Stream: null, // The actual video.
   DecodeStreamActive: false, // Will be set to false when StopStreamDecode() is called.
   Decoded: [], // Used to enfore the ForceUnique property.
-  DecoderWorker: new Worker( URL.createObjectURL(new Blob([decoderWorkerBlobString], {type: "application/javascript"}) ) ),
+  DecoderWorker: 
+    require(['./DecoderWorker'], function (decoderWorkerBlobString) {
+      new Worker( URL.createObjectURL(new Blob([decoderWorkerBlobString], {type: "application/javascript"}) ) ),
+    });
+    
   OrientationCallback: null,
   // Always call the Init().
   Init: function() {
@@ -199,7 +201,7 @@ var BarcodeReader = {
           BarcodeReader.BarcodeReaderDecodeImage(image, 1, "");
         } else {
           require(['.exif'], function (EXIF) {
-              EXIF.getData(image, function(exifImage) {
+            EXIF.getData(image, function(exifImage) {
               var orientation = EXIF.getTag(exifImage, "Orientation");
               var sceneType = EXIF.getTag(exifImage, "SceneCaptureType");
               if (typeof orientation !== 'number') orientation = 1;
