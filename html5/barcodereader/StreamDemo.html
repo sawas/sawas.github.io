@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<meta charset=utf-8>
 <html lang="en">
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<meta name="mobile-web-app-capable" content="yes">
 
 <head>
   <title>GetUserMedia demo</title>
@@ -9,12 +11,20 @@
 </head>
 
 <body>
-  <canvas id="videoCanvas" width="320" height="240">
-  </canvas>
+  <div class="select">
+    <label for="audioSource">Audio source: </label><select id="audioSource"></select>
+  </div>
+
+  <div class="select">
+    <label for="videoSource">Video source: </label><select id="videoSource"></select>
+  </div>
+  
+  <video muted autoplay></video>
+  
   <button id="decode" style="position:absolute;top:225px;left:330px" onclick="Decode()">Start decoding</button>
   <button id="stopDecode" style="position:absolute;top:225px;left:450px" onclick="StopDecode()">Stop decoding</button>
-  <p id="Result" style="position:absolute;top:275px;"></p>
   
+  <p id="Result" style="position:absolute;top:275px;"></p>
 </body>
 
 </html>
