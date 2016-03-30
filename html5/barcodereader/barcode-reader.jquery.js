@@ -1,6 +1,7 @@
 (function ( $ ) {
-  $.fn.barcodeReader = function(options) {
+  $.fn.barcodeReader = function(options, BarcodeReader) {
     console.log(options);
+    console.log(BarcodeReader);
 
     var settings = $.extend({}, $.fn.barcodeReader.defaults, options);
     var debug = settings.debug;
