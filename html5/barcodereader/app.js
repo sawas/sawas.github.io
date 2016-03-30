@@ -21,15 +21,6 @@ requirejs(['BarcodeReader'],
         });
         
         BarcodeReader.SwitchLocalizationFeedback(true);
-    
-        function Decode() {
-          if (!streaming) return;
-          BarcodeReader.DecodeStream(video);
-        }
-    
-        function StopDecode() {
-          BarcodeReader.StopStreamDecode();
-        }
         
         var videoElement = document.querySelector('video');
         var audioSelect = document.querySelector('select#audioSource');
@@ -95,6 +86,15 @@ requirejs(['BarcodeReader'],
             }
           };
           navigator.getUserMedia(constraints, successCallback, errorCallback);
+        }
+        
+        function Decode() {
+          if (!window.stream) return;
+          BarcodeReader.DecodeStream(videoElement);
+        }
+    
+        function StopDecode() {
+          BarcodeReader.StopStreamDecode();
         }
         
         audioSelect.onchange = start;
