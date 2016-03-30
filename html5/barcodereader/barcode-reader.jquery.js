@@ -1,3 +1,4 @@
+requirejs(['BarcodeReader']);
 (function ( $ ) {
   $.fn.barcodeReader = function(options) {
     console.log(options);
