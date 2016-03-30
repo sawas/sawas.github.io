@@ -100,4 +100,4 @@ requirejs(['BarcodeReader'],
         
         start();
     }
-});
+);
