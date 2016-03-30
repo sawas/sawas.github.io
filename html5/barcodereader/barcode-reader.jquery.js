@@ -1,5 +1,5 @@
-requirejs(['jquery', 'BarcodeReader'],
-(function ($, BarcodeReader) {
+requirejs(['jquery', 'canvas', 'app/sub'],
+function ($, BarcodeReader) {
   $.fn.barcodeReader = function(options) {
     console.log(options);
 
@@ -225,7 +225,7 @@ requirejs(['jquery', 'BarcodeReader'],
       navigator.mozGetUserMedia ||
       navigator.msGetUserMedia;
   }
-}( jQuery ));
+});
 
 $.fn.barcodeReader.defaults = {
   'debug': false,
