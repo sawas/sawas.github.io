@@ -214,12 +214,12 @@ var BarcodeReader = {
           } else {
             require(['.exif'], function (EXIF) {
               EXIF.getData(image, function(exifImage) {
-              var orientation = EXIF.getTag(exifImage, "Orientation");
-              var sceneType = EXIF.getTag(exifImage, "SceneCaptureType");
-              if (typeof orientation !== 'number') orientation = 1;
-              BarcodeReader.BarcodeReaderDecodeImage(exifImage, orientation, sceneType);
+                var orientation = EXIF.getTag(exifImage, "Orientation");
+                var sceneType = EXIF.getTag(exifImage, "SceneCaptureType");
+                if (typeof orientation !== 'number') orientation = 1;
+                BarcodeReader.BarcodeReaderDecodeImage(exifImage, orientation, sceneType);
+              });
             });
-          });
           }
         };
         img.src = image.src;
