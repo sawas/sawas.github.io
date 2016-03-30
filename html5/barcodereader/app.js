@@ -47,8 +47,7 @@ function(BarcodeReader) {
           option.text = sourceInfo.label || 'microphone ' +
             (audioSelect.length + 1);
           audioSelect.appendChild(option);
-        } else if (sourceInfo.kind === 'video' &&
-            sourceInfo.label.indexOf("back") > -1) {
+        } else if (sourceInfo.kind === 'video') {
           option.text = sourceInfo.label || 'camera ' + (videoSelect.length + 1);
           videoSelect.appendChild(option);
         } else {
