@@ -1,4 +1,5 @@
 (function ( $ ) {
+  requirejs(['BarcodeReader']);
   $.fn.barcodeReader = function(options) {
     console.log(options);
 
