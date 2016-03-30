@@ -7,6 +7,7 @@ requirejs(['BarcodeReader'],
         var streaming = false;
         
         BarcodeReader.StreamCallback = function(result) {
+            alert('result');
           if (result.length > 0) {
             var tempArray = [];
             for (var i = 0; i < result.length; i++) {
@@ -91,11 +92,13 @@ requirejs(['BarcodeReader'],
         
         function Decode() {
           if (!streaming) return;
+          alert('streaming');
           BarcodeReader.DecodeStream(videoElement);
         }
     
         function StopDecode() {
-          BarcodeReader.StopStreamDecode();
+            alert('stop streaming');
+            BarcodeReader.StopStreamDecode();
         }
         
         audioSelect.onchange = start;
