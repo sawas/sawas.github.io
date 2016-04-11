@@ -31,4 +31,17 @@
   <br>
 </body>
 
+<script>
+  $('#reader').html5_qrcode(function(data){
+         alert("can read");
+    },
+    function(error){
+        //show read errors 
+        $("#read_error").html(error);
+    }, function(videoError){
+        //the video stream could be opened
+        $("#vid_error").html(videoError);
+    }
+);
+</script>
 </html>
