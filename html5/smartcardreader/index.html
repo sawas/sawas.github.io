@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>AISMobileShop for Android</title>
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  
+    <script type="text/javascript">
+
+	    var currentStatus;
+        var lastStatus;
+		var gotProfile;
+		var gotPhoto;
+		var timerID;
+		
+        function onPageLoad() {
+			$("#progressbar").progressbar();
+			$("#progressbar").hide();
+			clearPageContents();
+			
+			//document.getElementById('button').style.visibility = 'hidden';
+			currentStatus = false;
+			lastStatus = false;
+			
+			if (typeof aisNative == "undefined") {
+				document.getElementById('button').style.visibility = 'hidden';
+				
+				htmlCtl = document.getElementById("labelStatus");
+				htmlCtl.innerHTML = "ระบบไม่ได้รันอยู่บนเอไอเอสเพลทฟอร์ม";
+				htmlCtl.style.color = "red";
+			} else {
+				timerID = setInterval(function () { onTimerTicked() }, 1000);
+				
+				htmlCtl = document.getElementById("labelStatus");
+				htmlCtl.innerHTML = aisNative.sendIccCommand(0, 1, "");
+				htmlCtl.style.color = "blue";
+			}
+        }
+
+        function onTimerTicked() {
+		
+			// Get card status
+			var result = aisNative.sendIccCommand(0, 2, "");
+			if (result == "Presented") {
+				currentStatus = true;
+			} else {
+				currentStatus = false;		
+			}
+			
+            if (currentStatus && !lastStatus) {
+				// On card inserted
+				clearPageContents();
+				
+				htmlCtl = document.getElementById("labelStatus");
+				htmlCtl.innerHTML = "Loading data ...";
+				htmlCtl.style.color = "blue";
+				
+				$("#progressbar").show();
+			    $("#progressbar").progressbar("value", 0);
+				
+				gotProfile = false;
+				gotPhoto = false;
+				lastStatus = true;
+            }
+
+            if (!currentStatus && lastStatus) {
+				// On card removed
+				htmlCtl = document.getElementById("labelStatus");
+				htmlCtl.innerHTML = "Card removed.";
+				htmlCtl.style.color = "blue";
+
+				$("#progressbar").hide();
+				lastStatus = false;
+            }			            
+			
+			if (lastStatus) {
+				var result = aisNative.sendIccCommand(0, 3, "");
+				var progress = parseInt(result, 10);
+				$("#progressbar").progressbar("value", progress);
+				
+				if (progress > 10 && !gotProfile) {
+					var profile = aisNative.sendIccCommand(0, 4, "");
+					showCardData(profile);
+					gotProfile = true;
+				}
+				
+				if (progress >= 100 && !gotPhoto) {
+					var base64str = aisNative.sendIccCommand(0, 5, "");
+					if (base64str && base64str.length > 0) {
+						var img = document.getElementById("imgPhoto");
+						img.setAttribute("src", 'data:image/jpg;base64,' + base64str + '');  			
+						gotPhoto = true;
+					}
+					
+					htmlCtl = document.getElementById("labelStatus");
+					htmlCtl.innerHTML = "";
+					$("#progressbar").hide();
+				}
+			}
+        }
+		
+		function clearPageContents() {
+            document.getElementById("labelNationalID").innerHTML = "";
+            document.getElementById("labelThaiName").innerHTML = "";
+            document.getElementById("labelEnglishName").innerHTML = "";
+            document.getElementById("labelAddress").innerHTML = "";
+            document.getElementById("labelBirthDate").innerHTML = "";
+            document.getElementById("labelSex").innerHTML = "";
+            document.getElementById("labelIssuePlace").innerHTML = "";
+            document.getElementById("labelIssueDate").innerHTML = "";
+            document.getElementById("labelExpireDate").innerHTML = "";
+            document.getElementById("labelMacAddress").innerHTML = "";
+            document.getElementById("labelReaderSerial").innerHTML = "";			
+            document.getElementById("labelStatus").innerHTML = "";
+			var img = document.getElementById("imgPhoto");
+            img.setAttribute("src", ""); 
+		}
+		
+        function convertToLongDate(shortDate) {
+
+            var monthArr = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
+            var day   = shortDate.substring(0, 2);
+            var month = shortDate.substring(3, 5);
+            var year  = shortDate.substring(6, 10);
+
+            var longDate = day.toString() + " " + monthArr[month - 1] + " " + year;
+            //var longDate = day.toString() + "-" + month.toString() + "-" + year;
+            return longDate;
+			//return shortDate;
+        }
+
+
+        function showCardData(textProfile) {
+
+            var fieldValues = textProfile.split("#");
+
+            var htmlinput = document.getElementById("labelNationalID");
+            htmlinput.innerHTML = fieldValues[2];
+            
+            htmlinput = document.getElementById("labelThaiName");
+            var thaiName = fieldValues[3];
+            thaiName += fieldValues[4];
+            thaiName += " " + fieldValues[6];
+            htmlinput.innerHTML = thaiName;
+
+            htmlinput = document.getElementById("labelEnglishName");
+            var englishName = fieldValues[7];
+            englishName += " " + fieldValues[8];
+            englishName += " " + fieldValues[10];
+            htmlinput.innerHTML = englishName;
+
+            htmlinput = document.getElementById("labelAddress");
+            var textAddress = fieldValues[13];
+
+            if (!isEmpty(fieldValues[14])) {
+                textAddress += " หมู่ที่ " + fieldValues[14];
+			}
+            
+            if (!isEmpty(fieldValues[15])) {
+                textAddress += " ตรอก" + fieldValues[15];
+			}
+
+            if (!isEmpty(fieldValues[16])) {
+                textAddress += " ซอย" + fieldValues[16];
+			}
+
+            if (!isEmpty(fieldValues[17])) {
+                textAddress += " ถนน" + fieldValues[17];
+			}
+
+			var bangkok = (fieldValues[20] == "กรุงเทพมหานคร");
+			
+            if (bangkok) {
+                textAddress += " แขวง" + fieldValues[18];
+			} else {
+                textAddress += " ต." + fieldValues[18];
+			}
+
+            if (bangkok) {
+                textAddress += " เขต" + fieldValues[19];
+			} else {
+                textAddress += " อ." + fieldValues[19];
+			}
+
+            if (bangkok) {
+                textAddress += " " + fieldValues[20];
+			} else {
+                textAddress += " จ." + fieldValues[20];
+			}
+
+            htmlinput.innerHTML = textAddress;
+
+            htmlinput = document.getElementById("labelBirthDate");
+            htmlinput.innerHTML = convertToLongDate(fieldValues[11]);
+
+            htmlCtl = document.getElementById("labelSex");
+            if (fieldValues[12] == "1") {
+                htmlCtl.innerHTML = "ชาย";
+            } else if (fieldValues[12] == "2") {
+                htmlCtl.innerHTML = "หญิง";
+            } else if (fieldValues[12] == "X") {
+				htmlCtl.innerHTML = "-";
+			}
+			
+			htmlCtl = document.getElementById("labelIssuePlace");	
+			htmlCtl.innerHTML = fieldValues[21];
+			
+			htmlCtl = document.getElementById("labelIssueDate");	
+			htmlCtl.innerHTML = convertToLongDate(fieldValues[22]);
+			
+			htmlCtl = document.getElementById("labelExpireDate");	
+			htmlCtl.innerHTML = convertToLongDate(fieldValues[23]);
+			
+			htmlCtl = document.getElementById("labelMacAddress");	
+			htmlCtl.innerHTML = fieldValues[0];	
+			
+			htmlCtl = document.getElementById("labelReaderSerial");	
+			htmlCtl.innerHTML = fieldValues[1];				
+		}
+
+		function isEmpty(str) {
+			return (!str || 0 === str.length);		
+		}
+		
+        function onButtonClicked() {
+			
+			var profile = aisNative.sendIccCommand(0, 4, "");
+			showCardData(profile);
+			
+			var base64str = aisNative.sendIccCommand(0, 5, "");
+			if (base64str && base64str.length > 0) {
+				var img = document.getElementById("imgPhoto");
+				img.setAttribute("src", 'data:image/jpg;base64,' + base64str + '');  			
+			}
+        }
+		
+    </script>
+</head>
+
+<body style="font-family:Tahoma; font-size:12px;" onload="onPageLoad()">
+	
+	<div><img src="logo.png"></div>
+	<div><label></label></div>
+    <h3>ระบบทดสอบการอ่านบัตรประชาชน</h3>
+    <p>เวอร์ชั่น 1.18</p>
+    <p></p>
+    <p></p>
+
+    <div style="float:left; width:340px; ">
+        <table>
+			<tr>
+				<td style="width:130px">เลขบัตรประชาชน:</td>
+				<td style="width:190px">
+					<label id="labelNationalID" type="text" style="width:190px;"></label>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:130px">ชื่อภาษาไทย:</td>
+				<td style="width:190px">
+					<label id="labelThaiName" type="text" style="width:190px;"/>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:130px">ชื่อภาษาอังกฤษ:</td>
+				<td style="width:190px">
+					<label id="labelEnglishName" type="text" style="width:190px;"/>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:130px">วันเกิด:</td>
+				<td style="width:190px">
+					<label id="labelBirthDate" type="text" style="width:190px;"/>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:130px; vertical-align:top;">เพศ:</td>
+				<td style="width:190px">
+					<label id="labelSex" type="text" style="width:190px;" />
+				</td>
+			<tr>
+				<td style="width:130px">ที่อยู่:</td>
+				<td style="width:190px">
+					<label id="labelAddress" type="text" style="width:190px;"/>
+				</td>
+			</tr>
+			</tr>
+			<tr>
+				<td style="width:130px; vertical-align:top;">สถานที่ออกบัตร:</td>
+				<td style="width:190px">
+					<label id="labelIssuePlace" type="text" style="width:190px;" />
+				</td>
+			</tr>
+			<tr>
+				<td style="width:130px; vertical-align:top;">วันที่ออกบัตร:</td>
+				<td style="width:190px">
+					<label id="labelIssueDate" type="text" style="width:190px;" />
+				</td>
+			</tr>
+			<tr>
+				<td style="width:130px; vertical-align:top;">วันที่หมดอายุ:</td>
+				<td style="width:190px">
+					<label id="labelExpireDate" type="text" style="width:190px;" />
+				</td>
+			</tr>
+			<tr>
+				<td style="width:130px">&nbsp;</td>
+				<td style="width:190px">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width:130px; vertical-align:top;">แมคแอดเดรส:</td>
+				<td style="width:190px">
+					<label id="labelMacAddress" type="text" style="width:190px;" />
+				</td>
+			</tr>
+			<tr>
+				<td style="width:130px; vertical-align:top;">เลขเครื่องอ่าน:</td>
+				<td style="width:190px">
+					<label id="labelReaderSerial" type="text" style="width:190px;" />
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:130px">&nbsp;</td>
+				<td style="width:190px">
+					<label id="labelStatus" type="text" style="width:190px;"></label>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="width:130px">&nbsp;</td>
+				<td style="width:190px"><div id="progressbar"></div></td>
+			</tr>
+
+			<tr>
+				<td style="width:130px">&nbsp;</td>
+				<td style="width:190px">&nbsp;</td>
+			</tr>
+
+			<tr>
+				<td style="width:130px">&nbsp;</td>
+				<td style="width:190px">
+					<input type="button" id="button" value="Print" style="width:100px;" onclick="onButtonClicked()"/>
+				</td>
+			</tr>
+        </table>
+    </div>
+
+    <div style="float:left; width:180px; " >
+        <img id="imgPhoto" src="" alt="Holder photo" height="200" width="160" />
+    </div>
+
+</body>
+</html>
