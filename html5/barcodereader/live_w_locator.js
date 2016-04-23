@@ -1,29 +1,14 @@
 $(function() {
-    var resultCollector = Quagga.ResultCollector.create({
-        capture: true,
-        capacity: 20,
-        blacklist: [{code: "2167361334", format: "i2of5"}],
-        filter: function(codeResult) {
-            // only store results which match this constraint
-            // e.g.: codeResult
-            return true;
-        }
-    });
     var App = {
         init : function() {
-            var self = this;
-
             Quagga.init(this.state, function(err) {
                 if (err) {
-                    return self.handleError(err);
+                    console.log(err);
+                    return;
                 }
-                Quagga.registerResultCollector(resultCollector);
                 App.attachListeners();
                 Quagga.start();
             });
-        },
-        handleError: function(err) {
-            console.log(err);
         },
         attachListeners: function() {
             var self = this;
@@ -31,7 +16,6 @@ $(function() {
             $(".controls").on("click", "button.stop", function(e) {
                 e.preventDefault();
                 Quagga.stop();
-                self._printCollectedResults();
             });
 
             $(".controls .reader-config-group").on("change", "input, select", function(e) {
@@ -43,18 +27,6 @@ $(function() {
 
                 console.log("Value of "+ state + " changed to " + value);
                 self.setState(state, value);
-            });
-        },
-        _printCollectedResults: function() {
-            var results = resultCollector.getResults(),
-                $ul = $("#result_strip ul.collector");
-
-            results.forEach(function(result) {
-                var $li = $('<li><div class="thumbnail"><div class="imgWrapper"><img /></div><div class="caption"><h4 class="code"></h4></div></div></li>');
-
-                $li.find("img").attr("src", result.frame);
-                $li.find("h4.code").html(result.codeResult.code + " (" + result.codeResult.format + ")");
-                $ul.prepend($li);
             });
         },
         _accessByPath: function(obj, path, val) {
@@ -117,7 +89,7 @@ $(function() {
                 constraints: {
                     width: 640,
                     height: 480,
-                    facingMode: "environment"
+                    facingMode: "environment" // or user
                 }
             },
             locator: {
@@ -126,7 +98,7 @@ $(function() {
             },
             numOfWorkers: 4,
             decoder: {
-                readers : [ "code_128_reader"]
+                readers : ["code_128_reader"]
             },
             locate: true
         },
@@ -172,5 +144,4 @@ $(function() {
             $("#result_strip ul.thumbnails").prepend($node);
         }
     });
-
 });
