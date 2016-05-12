@@ -7,6 +7,7 @@ $(function() {
                     return;
                 }
                 App.attachListeners();
+                console.log(this.state);
                 Quagga.start();
             });
         },
