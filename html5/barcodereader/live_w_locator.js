@@ -98,7 +98,7 @@ $(function() {
             },
             numOfWorkers: 4,
             decoder: {
-                readers : ["code_128_reader"]
+                readers : ["code_128_reader", "code_39_reader"]
             },
             locate: true
         },
