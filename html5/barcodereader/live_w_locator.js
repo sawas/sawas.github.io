@@ -1,13 +1,13 @@
 $(function() {
     var App = {
         init : function() {
+            console.log(this.state);
             Quagga.init(this.state, function(err) {
                 if (err) {
                     console.log(err);
                     return;
                 }
                 App.attachListeners();
-                console.log(this.state);
                 Quagga.start();
             });
         },
