@@ -1,0 +1,7 @@
+{
+  "name": "sawas.github.io",
+  "short_name": "sawas.github.io",
+  "start_url": "/",
+  "display": "standalone",
+  "gcm_sender_id": "482941778795"
+}
