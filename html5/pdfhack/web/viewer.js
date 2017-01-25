@@ -13,7 +13,8 @@
  * limitations under the License.
  */
 'use strict';
-var DEFAULT_URL = 'compressed.tracemonkey-pldi-09.pdf';;
+var DEFAULT_URL = '';;
+//var DEFAULT_URL = 'compressed.tracemonkey-pldi-09.pdf';;
 var pdfjsWebLibs; {
     pdfjsWebLibs = {
         pdfjsWebPDFJS: window.pdfjsDistBuildPdf
@@ -6567,7 +6568,9 @@ var pdfjsWebLibs; {
             var HOSTED_VIEWER_ORIGINS = [
                 'null',
                 'http://mozilla.github.io',
-                'https://mozilla.github.io'
+                'https://mozilla.github.io',
+                'http://dev-newfibre.ais.co.th',
+                'https://dev-newfibre.ais.co.th',
             ];
             validateFileURL = function validateFileURL(file) {
                 try {
@@ -6710,8 +6713,10 @@ var pdfjsWebLibs; {
                     PDFViewerApplication.error(mozL10n.get('loading_error', null, 'An error occurred while opening.'), reason);
                 });
             }
+
             var webViewerOpenFileViaURL;
             webViewerOpenFileViaURL = function webViewerOpenFileViaURL(file) {
+                console.log("file");
                 if (file && file.lastIndexOf('file:', 0) === 0) {
                     PDFViewerApplication.setTitleUsingUrl(file);
                     var xhr = new XMLHttpRequest();
@@ -6727,10 +6732,29 @@ var pdfjsWebLibs; {
                     }
                     return;
                 }
+                if (file && file.lastIndexOf('data:', 0) === 0) {
+                    var pdfAsArray = convertDataURIToBinary(file);
+                    PDFViewerApplication.open(pdfAsArray);
+                    return;
+                }
                 if (file) {
                     PDFViewerApplication.open(file);
                 }
             };
+
+            function convertDataURIToBinary(dataURI) {
+                var BASE64_MARKER = ';base64,';
+                var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+                var base64 = dataURI.substring(base64Index);
+                var raw = window.atob(base64);
+                var rawLength = raw.length;
+                var array = new Uint8Array(new ArrayBuffer(rawLength));
+
+                for (var i = 0; i < rawLength; i++) {
+                    array[i] = raw.charCodeAt(i);
+                }
+                return array;
+            }
 
             function webViewerPageRendered(e) {
                 var pageNumber = e.pageNumber;
