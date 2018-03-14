@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Geolocation</title>
+    <!-- Bootstrap core CSS-->
+    <link href="../pdfhack/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="../pdfhack/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="navbar navbar-default navbar-static-top">
+        <div class="container">
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="">Home</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="starter-template">
+            <section class="content">
+                <p class="text-center">
+                    <a type="button" id="btnTryMe" class="btn btn-lg btn-default">Demo</a>
+                </p>
+                <p class="text-center">
+                    <label id="startLat"></label>
+                    <label id="startLon"></label>
+                </p>
+            </section>
+        </div>
+    </div>
+    <div class="container">
+        <footer>
+        </footer>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="../pdfhack/js/jquery-2.1.0.min.js"></script>
+    <script src="../pdfhack/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        var geoError = function(error) {
+            console.log('Error occurred. Error code: ' + error.code);
+            // error.code can be:
+            //   0: unknown error
+            //   1: permission denied
+            //   2: position unavailable (error response from location provider)
+            //   3: timed out
+            alert('Error occurred. Error code: ' + error.code);
+        };
+
+        // window.onload = function() {
+        //     var startPos;
+        //     var geoOptions = {
+        //         enableHighAccuracy: true
+        //     }
+
+        //     var geoSuccess = function(position) {
+        //         startPos = position;
+        //         document.getElementById('startLat').innerHTML = startPos.coords.latitude;
+        //         document.getElementById('startLon').innerHTML = startPos.coords.longitude;
+        //     };
+
+
+        //     if (getGeoSupoort()) {
+        //         navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+        //     }
+        // };
+
+        var button = document.getElementById("btnTryMe");
+        button.onclick = function() {
+            var geoOptions = {
+                enableHighAccuracy: true
+            }
+
+            var geoSuccess = function(position) {
+                startPos = position;
+                document.getElementById('startLat').innerHTML = startPos.coords.latitude;
+                document.getElementById('startLon').innerHTML = startPos.coords.longitude;
+            };
+
+
+            if (getGeoSupoort()) {
+                navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+            }
+        };
+
+        function getGeoSupoort() {
+            if (navigator.geolocation) {
+                console.log('Geolocation is supported!');
+                return true;
+            } else {
+                alert('Geolocation is not supported for this Browser/OS.');
+                console.log('Geolocation is not supported for this Browser/OS.');
+            }
+            return false;
+
+        }
+    </script>
+</body>
+
+</html>
