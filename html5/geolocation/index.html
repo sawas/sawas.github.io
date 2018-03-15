@@ -76,28 +76,10 @@
             alert('Error occurred. Error code: ' + msg);
         };
 
-        // window.onload = function() {
-        //     var startPos;
-        //     var geoOptions = {
-        //         enableHighAccuracy: true
-        //     }
-
-        //     var geoSuccess = function(position) {
-        //         startPos = position;
-        //         document.getElementById('startLat').innerHTML = startPos.coords.latitude;
-        //         document.getElementById('startLon').innerHTML = startPos.coords.longitude;
-        //     };
-
-
-        //     if (getGeoSupoort()) {
-        //         navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
-        //     }
-        // };
-
         var button = document.getElementById("btnTryMe");
         button.onclick = function() {
             var geoOptions = {
-                enableHighAccuracy: true,
+                // enableHighAccuracy: true,
                 maximumAge: 5 * 60 * 1000,
                 timeout: 10 * 1000
             }
