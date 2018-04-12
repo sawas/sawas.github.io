@@ -68,13 +68,13 @@ var barcode = function() {
 		elements.canvasg = document.querySelector(config.canvasg);
 		elements.ctxg = elements.canvasg.getContext('2d');
 
-		if (navigator.getUserMedia) {
+		/*if (navigator.getUserMedia) {
 			navigator.getUserMedia({audio: false, video: true}, function(stream) {
 				elements.video.src = window.URL.createObjectURL(stream);
 			}, function(error) {
 				console.log(error);
 			});
-		}
+		}*/
 
 		elements.video.addEventListener('canplay', function(e) {
 
