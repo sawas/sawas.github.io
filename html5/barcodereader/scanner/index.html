@@ -11,8 +11,6 @@
 
         $(document).ready(function() {
 
-            initscanner();
-            //barcode.init();
         });
 
         function initscanner() {
@@ -24,7 +22,7 @@
             barcode.setHandler(function(barcode) {
                 $('#result').html(barcode);
             });
-            
+            barcode.init();
 
             $('#result').bind('DOMSubtreeModified', function(e) {
                 sound.play();
@@ -48,6 +46,8 @@
         <video id="barcodevideo" autoplay></video>
         <canvas id="barcodecanvasg"></canvas>
     </div>
+    
+    <a href="#" onclick="initscanner()">Start</a>
     <canvas id="barcodecanvas"></canvas>
     <div id="result"></div>
     <div id="error"></div>
@@ -107,8 +107,6 @@
         function gotStream(stream) {
             window.stream = stream; // make stream available to console
             videoElement.srcObject = stream;
-            initscanner();
-            barcode.init();
         }
 
         function handleError(error) {
