@@ -11,6 +11,11 @@
 
         $(document).ready(function() {
 
+            initscanner();
+
+        });
+
+        function initscanner() {
             barcode.config.start = 0.1;
             barcode.config.end = 0.9;
             barcode.config.video = '#barcodevideo';
@@ -24,8 +29,7 @@
             $('#result').bind('DOMSubtreeModified', function(e) {
                 sound.play();
             });
-
-        });
+        }
     </script>
 
 </head>
