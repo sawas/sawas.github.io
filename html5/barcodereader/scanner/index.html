@@ -46,14 +46,14 @@
     </div>
     <canvas id="barcodecanvas"></canvas>
     <div id="result"></div>
+    <div id="error"></div>
 
     <script>
         var videoElement = document.querySelector('video');
         var audioSelect = document.querySelector('select#audioSource');
         var videoSelect = document.querySelector('select#videoSource');
 
-        navigator.mediaDevices.enumerateDevices()
-            .then(gotDevices).then(getStream).catch(handleError);
+        navigator.mediaDevices.enumerateDevices().then(gotDevices).then(getStream).catch(handleError);
 
         audioSelect.onchange = getStream;
         videoSelect.onchange = getStream;
@@ -97,8 +97,7 @@
                 }
             };
 
-            navigator.mediaDevices.getUserMedia(constraints).
-            then(gotStream).catch(handleError);
+            navigator.mediaDevices.getUserMedia(constraints).then(gotStream).catch(handleError);
         }
 
         function gotStream(stream) {
@@ -108,6 +107,7 @@
 
         function handleError(error) {
             console.log('Error: ', error);
+            $("#error").html(error);
         }
     </script>
 </body>
