@@ -12,7 +12,7 @@
         $(document).ready(function() {
 
             initscanner();
-
+            barcode.init();
         });
 
         function initscanner() {
@@ -24,7 +24,7 @@
             barcode.setHandler(function(barcode) {
                 $('#result').html(barcode);
             });
-            barcode.init();
+            
 
             $('#result').bind('DOMSubtreeModified', function(e) {
                 sound.play();
