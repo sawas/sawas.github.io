@@ -89,10 +89,9 @@ var App = {
             .fromSource({
                 target: selector,
                 constraints: {
-                    width: { min: 1280 },
-                    height: { min: 720 },
-                    facingMode: "environment",
-                    aspectRatio: { min: 1, max: 2 }
+                    width: 600,
+                    height: 600,
+                    facingMode: "environment"
                 }
             });
         return scanner;
