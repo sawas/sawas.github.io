@@ -263,6 +263,7 @@ $(function() {
                 }]
             },
             locate: false,
+            multiple: true,
             debug: false
         },
         lastResult: null
