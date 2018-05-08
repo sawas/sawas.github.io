@@ -24,6 +24,7 @@ $(function() {
         filter: function(codeResult) {
             // only store results which match this constraint
             // e.g.: codeResult
+            console.log(codeResult);
             return true;
         }
     });
@@ -247,7 +248,7 @@ $(function() {
                 patchSize: "medium",
                 halfSample: true
             },
-            numOfWorkers: 2,
+            numOfWorkers: 4,
             frequency: 10,
             decoder: {
                 readers: [{
@@ -255,7 +256,8 @@ $(function() {
                     config: {}
                 }]
             },
-            locate: true
+            locate: true,
+            debug: false
         },
         lastResult: null
     };
