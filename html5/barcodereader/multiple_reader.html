@@ -28,51 +28,55 @@
 
 <body>
     <div class="wrapper">
-        <link rel="stylesheet" type="text/css" href="./css/mstlyles2.css">
-        <section id="container" class="container">
-            <h3>Scan various barcodes continously</h3>
-            <p>
-                Be aware that not all combinations play together nicely. Some codes do not have a checksum (e.g. ITF).
-            </p>
-            <div class="controls">
-                <button type="button" class="icon-barcode button scan">Start Scanning</button>
-                <div class="readers">
-                    <label>
-                        <span>EAN-13</span>
-                        <input checked="" name="ean_reader" type="checkbox">
-                    </label>
-                    <label>
-                        <span>EAN-8</span>
-                        <input name="ean_8_reader" type="checkbox">
-                    </label>
-                    <label>
-                        <span>UPC-E</span>
-                        <input name="upc_e_reader" type="checkbox">
-                    </label>
-                    <label>
-                        <span>Code 39</span>
-                        <input checked="" name="code_39_reader" type="checkbox">
-                    </label>
-                    <label>
-                        <span>Codabar</span>
-                        <input name="codabar_reader" type="checkbox">
-                    </label>
-                    <label>
-                        <span>Code 128</span>
-                        <input checked="" name="code_128_reader" type="checkbox">
-                    </label>
-                    <label>
-                        <span>Interleaved 2 of 5</span>
-                        <input name="i2of5_reader" type="checkbox">
-                    </label>
+        <section>
+
+            <link rel="stylesheet" type="text/css" href="./css/mstlyles2.css">
+            <section id="container" class="container">
+                <h3>Scan various barcodes continously</h3>
+                <p>
+                    Be aware that not all combinations play together nicely. Some codes do not have a checksum (e.g. ITF).
+                </p>
+                <div class="controls">
+                    <button type="button" class="icon-barcode button scan">Start Scanning</button>
+                    <div class="readers">
+                        <label>
+                            <span>EAN-13</span>
+                            <input checked="" name="ean_reader" type="checkbox">
+                        </label>
+                        <label>
+                            <span>EAN-8</span>
+                            <input name="ean_8_reader" type="checkbox">
+                        </label>
+                        <label>
+                            <span>UPC-E</span>
+                            <input name="upc_e_reader" type="checkbox">
+                        </label>
+                        <label>
+                            <span>Code 39</span>
+                            <input checked="" name="code_39_reader" type="checkbox">
+                        </label>
+                        <label>
+                            <span>Codabar</span>
+                            <input name="codabar_reader" type="checkbox">
+                        </label>
+                        <label>
+                            <span>Code 128</span>
+                            <input checked="" name="code_128_reader" type="checkbox">
+                        </label>
+                        <label>
+                            <span>Interleaved 2 of 5</span>
+                            <input name="i2of5_reader" type="checkbox">
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="overlay overlay--inline">
-                <div class="overlay__content">
-                    <div class="overlay__close">X</div>
-                    <ul class="results"></ul>
+                <div class="overlay overlay--inline">
+                    <div class="overlay__content">
+                        <div class="overlay__close">X</div>
+                        <ul class="results"></ul>
+                    </div>
                 </div>
-            </div>
+            </section>
+            <ul class="results"></ul>
         </section>
 
         <footer>
