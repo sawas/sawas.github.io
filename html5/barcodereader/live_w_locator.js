@@ -259,11 +259,7 @@ $(function() {
                     config: {}
                 }, {
                     format: "ean_reader",
-                    config: {
-                        supplements: [
-                            'ean_5_reader', 'ean_2_reader'
-                        ]
-                    }
+                    config: {}
                 }]
             },
             locate: false,
