@@ -254,6 +254,16 @@ $(function() {
                 readers: [{
                     format: "code_128_reader",
                     config: {}
+                }, {
+                    format: "code_39_reader",
+                    config: {}
+                }, {
+                    format: "ean_reader",
+                    config: {
+                        supplements: [
+                            'ean_5_reader', 'ean_2_reader'
+                        ]
+                    }
                 }]
             },
             locate: false,
