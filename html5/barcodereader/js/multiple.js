@@ -89,8 +89,8 @@ var App = {
             .fromSource({
                 target: selector,
                 constraints: {
-                    width: 600,
-                    height: 600,
+                    width: 1280,
+                    height: 720,
                     facingMode: "environment"
                 }
             });
