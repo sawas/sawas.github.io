@@ -251,10 +251,7 @@ $(function() {
             numOfWorkers: 4,
             frequency: 10,
             decoder: {
-                readers: [{
-                    format: "code_128_reader",
-                    config: {}
-                }]
+                readers: ["ean_reader", "code_39_reader", "code_128_reader"]
             },
             locate: false,
             debug: false
