@@ -256,7 +256,7 @@ $(function() {
                     config: {}
                 }]
             },
-            locate: true,
+            locate: false,
             debug: false
         },
         lastResult: null
