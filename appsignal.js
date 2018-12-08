@@ -1,4 +1,6 @@
-import * as constants from './constants.js';
+const constants = {
+    ONESIGNALAPPID: "591f8da3-a410-430b-b5db-6ab2e2af5e39",
+}
 
 var OneSignal = window.OneSignal || [];
 OneSignal.push(function () {
