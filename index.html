@@ -5,23 +5,11 @@
     <meta name="viewport" content="initial-scale=1, user-scalable=no, user-scalable=0">
     <link rel="manifest" href="/manifest.json" />
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-    <script>
-        var OneSignal = window.OneSignal || [];
-        OneSignal.push(function () {
-            OneSignal.init({
-                appId: "591f8da3-a410-430b-b5db-6ab2e2af5e39",
-                autoRegister: false,
-                notifyButton: {
-                    enable: true,
-                },
-            });
-            OneSignal.registerForPushNotifications();
-        });
-    </script>
+    <script src="/appsignal.js" async=""></script>
 </head>
 
 <body>
-    <div id="container">
+    <div id=" container">
         <h1>Things must be done.</h1>
         <h2>
             <ul>
