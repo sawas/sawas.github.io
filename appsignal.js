@@ -25,6 +25,7 @@ OneSignal.push(function() {
 		// Automatically subscribe user if deleted cookies and browser shows "Allow"
 		OneSignal.registerForPushNotifications();
 	} else {
+		localStorage.removeItem('onesignal-notification-prompt');
 		OneSignal.showHttpPrompt();
 	}
 });
