@@ -26,6 +26,7 @@
 
         <p>
             <script type="text/javascript">
+                var OneSignal = window.OneSignal || [];
                 OneSignal.getUserId(function(id) {
                     console.log(id);
                     var elem = document.getElementById('subid');
