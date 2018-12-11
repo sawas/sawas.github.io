@@ -7,7 +7,14 @@
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
     <script src="/appsignal.js" async></script>
     <!-- appId: "591f8da3-a410-430b-b5db-6ab2e2af5e39", -->
-
+    <script type="text/javascript" async>
+        var OneSignal = window.OneSignal || [];
+        OneSignal.getUserId(function(id) {
+            console.log(id);
+            var elem = document.getElementById('subid');
+            elem.innerText = id;
+        });
+    </script>
 </head>
 
 <body>
@@ -25,14 +32,7 @@
         </h2>
 
         <p>
-            <script type="text/javascript" async>
-                var OneSignal = window.OneSignal || [];
-                OneSignal.getUserId(function(id) {
-                    console.log(id);
-                    var elem = document.getElementById('subid');
-                    elem.innerText = id;
-                });
-            </script>
+
             Your Subscription ID is <label id="subid"></label>
         </p>
     </div>
