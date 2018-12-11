@@ -9,11 +9,14 @@
     <!-- appId: "591f8da3-a410-430b-b5db-6ab2e2af5e39", -->
     <script type="text/javascript" async>
         var OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+
         OneSignal.getUserId(function(id) {
             console.log(id);
             var elem = document.getElementById('subid');
             elem.innerText = id;
         });
+    });
     </script>
 </head>
 
