@@ -15,6 +15,10 @@
 					var elem = document.getElementById('subid');
 					elem.innerText = id;
 				});
+
+				OneSignal.getNotificationPermission(function(permission) {
+					console.log('Site Notification Permission:', permission);
+				});
 			});
 
 			function selfNotification() {
