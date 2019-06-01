@@ -26,7 +26,7 @@ OneSignal.push(function() {
   console.log(Notification.permission);
   if (Notification.permission === 'granted') {
     // Automatically subscribe user if deleted cookies and browser shows "Allow"
-    OneSignal.registerForPushNotifications();
+    OneSignal.showNativePrompt();
   } else {
     localStorage.removeItem('onesignal-notification-prompt');
     OneSignal.showSlidedownPrompt();
