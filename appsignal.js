@@ -10,9 +10,9 @@ OneSignal.push(function() {
     appId: constants.ONESIGNALAPPID,
     autoResubscribe: true,
     autoRegister: false,
-    notifyButton: {
-      enable: true
-    },
+    // notifyButton: {
+    //   enable: true
+    // },
     promptOptions: {
       /* actionMessage limited to 90 characters */
       actionMessage:
